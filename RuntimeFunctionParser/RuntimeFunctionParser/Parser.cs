@@ -79,8 +79,13 @@ namespace RuntimeFunctionParser
                         {
                             for (int j = 0; j < leftSplitSide.Length; j++)
                             {
-                                if (leftSplitSide[j] != '(' && leftSplitSide[j] != ')' && leftSplitSide[j] != '*' &&
-                                    leftSplitSide[j] != '+' && leftSplitSide[j] != '-' && leftSplitSide[j] != '/')
+                                if ((leftSplitSide[j] != '(' && leftSplitSide[j] != ')' && leftSplitSide[j] != '*' &&
+                                    leftSplitSide[j] != '+' && leftSplitSide[j] != '-' && leftSplitSide[j] != '/') && j != 0)
+                                {
+                                    rightSideOfPower += leftSplitSide[j];
+                                }
+                                else if((leftSplitSide[j] == '(' || leftSplitSide[j] == ')' || leftSplitSide[j] == '*' ||
+                                    leftSplitSide[j] == '+' || leftSplitSide[j] == '-' || leftSplitSide[j] == '/') && j == 0)
                                 {
                                     rightSideOfPower += leftSplitSide[j];
                                 }
@@ -89,15 +94,13 @@ namespace RuntimeFunctionParser
                                     break;
                                 }
                             }
-                            char[] charArray = rightSideOfPower.ToCharArray();
-                            Array.Reverse(charArray);
-                            rightSideOfPower = new string(charArray);
                         }
                     }
                     string fullStringToReplace = "Math.Pow(" + leftSideOfPower + "," + rightSideOfPower + ")";
                     function = function.Replace(leftSideOfPower + "^" + rightSideOfPower, fullStringToReplace);
                 }
             }
+
             if (function.Contains("e"))
             {
                 function = function.Replace("e", "Math.E");
@@ -124,7 +127,14 @@ namespace RuntimeFunctionParser
             {
                 function = function.Replace("log(", "Math.Log(");
             }
-            
+            if(function.Contains("abs("))
+            {
+                function = function.Replace("abs(", "Math.Abs(");
+            }
+            if(function.Contains("sign("))
+            {
+                function = function.Replace("sign(", "Math.Sign(");
+            }
 
             return function;
         }
