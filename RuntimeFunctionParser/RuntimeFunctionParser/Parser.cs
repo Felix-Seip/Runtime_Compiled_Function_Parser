@@ -39,6 +39,9 @@ namespace RuntimeFunctionParser
 
         private string ReplaceUnknowns(string function)
         {
+			function = function.ToLower();
+			function = function.Replace(',', '.');
+
             if (function.Contains("^"))
             {
                 int count = function.Count(f => f == '^');
