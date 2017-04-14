@@ -16,22 +16,35 @@ namespace RuntimeParserTest
 		}
 
 		[TestMethod]
-		public void Power_Test()
+		public void MathPow_Test()
 		{
+			// Positiv 
 			string function = "2*x^2";
-
 			Function f = _parser.ParseFunction(function);
-			
-			Assert.IsNotNull(f);
+
+			Assert.AreEqual("2*Math.Pow(x,2)", f.OriginalFunction);
+
+			// Negativ
+			function = "2*x^-2";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("2*Math.Pow(x,-2)", f.OriginalFunction);
+
+			// With Brackets
+			function = "2*x^(2*9)";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("2*Math.Pow(x,2*9)", f.OriginalFunction);
 		}
 
 		[TestMethod]
 		public void PolynominalParse_Test()
 		{
-			string function = "2+-1,27411634756996*x+0*x^2+2,27411634756996*x^3";
+			// Positiv 3. Degree
+			string function = "2*x^3+3*x^2+x+6";
 
 			Function f = _parser.ParseFunction(function);
-			Assert.IsNotNull(f);
+			Assert.AreEqual("2*Math.Pow(x,3)+3*Math.Pow(x,2)+x+6", f.OriginalFunction);
 		}
 	}
 }

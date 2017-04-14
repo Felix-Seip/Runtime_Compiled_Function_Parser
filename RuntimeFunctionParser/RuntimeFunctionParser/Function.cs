@@ -4,14 +4,19 @@ namespace RuntimeFunctionParser
 {
     public class Function
     {
+        private MethodInfo _mathFunction;
 
-        private MethodInfo m_mathFunction;
-        private string m_originalFunction;
+        private string _originalFunction;
+		public string OriginalFunction
+		{
+			private set { _originalFunction = value; }
+			get { return _originalFunction; }
+		}
 
         public Function(MethodInfo mathFunction, string originalFunction)
         {
-            m_mathFunction = mathFunction;
-            m_originalFunction = originalFunction;
+            _mathFunction = mathFunction;
+			OriginalFunction = originalFunction;
         }
 
 		public Function(string originalFunction)
@@ -22,12 +27,12 @@ namespace RuntimeFunctionParser
 
         public double Solve(double x, double y)
         {
-            return (double)m_mathFunction.Invoke(null, new object[] { x, y });
+            return (double)_mathFunction.Invoke(null, new object[] { x, y });
         }
 
         public override string ToString()
         {
-            return m_originalFunction;
+            return OriginalFunction;
         }
     }
 }
