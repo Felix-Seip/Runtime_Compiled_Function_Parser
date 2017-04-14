@@ -71,13 +71,9 @@ namespace RuntimeFunctionParser
 						{
 							for (int j = leftSplitSide.Length - 1; j >= 0; j--)
 							{
-								if (leftSplitSide[j] != '(' && leftSplitSide[j] != '+' && leftSplitSide[j] != '*' &&
-									leftSplitSide[j] != '-' && leftSplitSide[j] != '/')
+								if (!IsMathematicalSymbol(leftSplitSide[j], '(', '*', '+', '-', '/'))
 								{
-									if (leftSide)
-									{
-										leftSideOfPower += leftSplitSide[j];
-									}
+									leftSideOfPower += leftSplitSide[j];
 								}
 								else
 								{
@@ -92,13 +88,11 @@ namespace RuntimeFunctionParser
 						{
 							for (int j = 0; j < leftSplitSide.Length; j++)
 							{
-								if ((leftSplitSide[j] != '(' && leftSplitSide[j] != ')' && leftSplitSide[j] != '*' &&
-									leftSplitSide[j] != '+' && leftSplitSide[j] != '-' && leftSplitSide[j] != '/') && j != 0)
+								if (!IsMathematicalSymbol(leftSplitSide[j], '(', ')', '*', '+', '-', '/') && j != 0)
 								{
 									rightSideOfPower += leftSplitSide[j];
 								}
-								else if ((leftSplitSide[j] == '(' || leftSplitSide[j] == ')' || leftSplitSide[j] == '*' ||
-									leftSplitSide[j] == '+' || leftSplitSide[j] == '-' || leftSplitSide[j] == '/') && j == 0)
+								else if (IsMathematicalSymbol(leftSplitSide[j], '(', ')', '*', '+', '-', '/') && j == 0)
 								{
 									rightSideOfPower += leftSplitSide[j];
 								}
@@ -151,5 +145,31 @@ namespace RuntimeFunctionParser
 
 			return function;
 		}
+
+		/// <summary>
+		/// Checks if a single character is one of the given symbols
+		/// </summary>
+		/// <param name="charToCheck">char to check the symbols with</param>
+		/// <param name="symbols">symbols to check with</param>
+		/// <returns></returns>
+		private bool IsMathematicalSymbol(char charToCheck, params char[] symbols)
+		{
+			bool isCorrectSymbol = false;
+
+			if (char.IsWhiteSpace(charToCheck))
+				return isCorrectSymbol;
+
+			foreach (char symbol in symbols)
+			{
+				if (!symbols.Equals(charToCheck))
+					continue;
+
+				isCorrectSymbol = true;
+				break;
+			}
+
+			return isCorrectSymbol;
+		}
+
 	}
 }
