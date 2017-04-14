@@ -57,23 +57,22 @@ namespace RuntimeFunctionParser
 				int count = function.Count(f => f == '^');
 				for (int k = 0; k < count; k++)
 				{
-					string[] splitPower = new string[1];
-					splitPower = function.Split(new char[] { '^' }, 2);
+					string[] splitPower = function.Split(new char[] { '^' }, 2);
 
 					string leftSideOfPower = "";
 					string rightSideOfPower = "";
 
 					for (int i = 0; i < splitPower.Length; i++)
 					{
-						char[] leftSplitSide = splitPower[i].ToCharArray();
+						char[] splitSide = splitPower[i].ToCharArray();
 						bool leftSide = i == 0 ? true : false;
 						if (leftSide)
 						{
-							for (int j = leftSplitSide.Length - 1; j >= 0; j--)
+							for (int j = splitSide.Length - 1; j >= 0; j--)
 							{
-								if (!IsMathematicalSymbol(leftSplitSide[j], '(', '*', '+', '-', '/'))
+								if (!IsMathematicalSymbol(splitSide[j], '(', '*', '+', '-', '/'))
 								{
-									leftSideOfPower += leftSplitSide[j];
+									leftSideOfPower += splitSide[j];
 								}
 								else
 								{
@@ -86,15 +85,15 @@ namespace RuntimeFunctionParser
 						}
 						else
 						{
-							for (int j = 0; j < leftSplitSide.Length; j++)
+							for (int j = 0; j < splitSide.Length; j++)
 							{
-								if (!IsMathematicalSymbol(leftSplitSide[j], '(', ')', '*', '+', '-', '/') && j != 0)
+								if (!IsMathematicalSymbol(splitSide[j], '(', ')', '*', '+', '-', '/') && j != 0)
 								{
-									rightSideOfPower += leftSplitSide[j];
+									rightSideOfPower += splitSide[j];
 								}
-								else if (IsMathematicalSymbol(leftSplitSide[j], '(', ')', '*', '+', '-', '/') && j == 0)
+								else if (IsMathematicalSymbol(splitSide[j], '(', ')', '*', '+', '-', '/') && j == 0)
 								{
-									rightSideOfPower += leftSplitSide[j];
+									rightSideOfPower += splitSide[j];
 								}
 								else
 								{
@@ -161,7 +160,7 @@ namespace RuntimeFunctionParser
 
 			foreach (char symbol in symbols)
 			{
-				if (!symbols.Equals(charToCheck))
+				if (!symbol.Equals(charToCheck))
 					continue;
 
 				isCorrectSymbol = true;
