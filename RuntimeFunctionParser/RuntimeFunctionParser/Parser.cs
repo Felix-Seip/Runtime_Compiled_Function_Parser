@@ -39,7 +39,11 @@ namespace RuntimeFunctionParser
 			}
 			catch (Exception ex)
 			{
-				throw new ParserException("Function could not be parsed", ex.InnerException);
+				ParserException pe = ex as ParserException;
+				if (pe == null)
+					pe = new ParserException("Function could not be parsed", ex.InnerException);
+
+				throw pe;
 			}
 		}
 
