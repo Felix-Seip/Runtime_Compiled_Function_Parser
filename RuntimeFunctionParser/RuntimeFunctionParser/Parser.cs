@@ -85,19 +85,22 @@ namespace RuntimeFunctionParser
 						}
 						else
 						{
-							for (int j = 0; j < splitSide.Length; j++)
+							if (splitSide[0].Equals('('))
 							{
-								if (!IsMathematicalSymbol(splitSide[j], '(', ')', '*', '+', '-', '/') && j != 0)
+								if (!splitSide.Contains(')'))
+									throw new ParserException("Missing ')' in Pow statement");
+
+								for (int j = 0; j <= Array.IndexOf(splitSide, ')'); j++)
 								{
 									rightSideOfPower += splitSide[j];
 								}
-								else if (IsMathematicalSymbol(splitSide[j], '(', ')', '*', '+', '-', '/') && j == 0)
+							}
+							else
+							{
+								int indexOfFirstOccuredNumber = Array.IndexOf(splitSide, splitSide.First(c => char.IsDigit(c)));
+								for (int j = 0; j <= indexOfFirstOccuredNumber; j++)
 								{
 									rightSideOfPower += splitSide[j];
-								}
-								else
-								{
-									break;
 								}
 							}
 						}

@@ -34,7 +34,13 @@ namespace RuntimeParserTest
 			function = "2*x^(2*9)";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("2*Math.Pow(x,2*9)", f.OriginalFunction);
+			Assert.AreEqual("2*Math.Pow(x,(2*9))", f.OriginalFunction);
+
+			// Operations on left side
+			function = "(x+3)^2";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("Math.Pow(x+3,2)", f.OriginalFunction);
 		}
 
 		[TestMethod]
