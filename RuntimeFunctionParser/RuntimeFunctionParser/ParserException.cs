@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RuntimeFunctionParser
 {
-	class ParserException : Exception
+	public class ParserException : Exception
 	{
 		public ParserException()
 		{
