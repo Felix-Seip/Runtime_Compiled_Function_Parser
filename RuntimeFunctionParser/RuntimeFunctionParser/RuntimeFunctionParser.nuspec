@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>RuntimeFunctionParser</id>
+    <version>0.0.8</version>
+    <title>RuntimeFunctionParser</title>
+    <authors>Felix Seip; Christian Bechtluft</authors>
+    <owners>Christian Bechtluft</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/Felix-Seip/Runtime_Compiled_Function_Parser</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>A mathematical function parser at runtime</description>
+    <releaseNotes>Parse a string to a Function object directly</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>Math Function Parser FunctionParser C# Runtime Seip-Garantie</tags>
+  </metadata>
+</package>
