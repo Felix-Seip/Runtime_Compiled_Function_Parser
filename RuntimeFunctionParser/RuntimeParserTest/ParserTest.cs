@@ -34,35 +34,66 @@ namespace RuntimeParserTest
 			string function = string.Empty;
 			Function f = null;
 
-			// Positiv 
-			function = "2*x^2";
+			// Without variable
+			function = "3^2";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("2*Math.Pow(x,2)", f.OriginalFunction, "Failed with positiv power");
+			Assert.AreEqual("Math.Pow(3,2)", f.OriginalFunction, "Failed with positiv power");
+
+			// Positiv 
+			function = "x^2";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("Math.Pow(x,2)", f.OriginalFunction, "Failed with positiv power");
 
 			// Negativ
-			function = "2*x^-2";
+			function = "-2^3";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("2*Math.Pow(x,-2)", f.OriginalFunction, "Failed with negativ power");
+			Assert.AreEqual("Math.Pow(-2,3)", f.OriginalFunction, "Failed with -2^3");
+
+			function = "x^-2";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("Math.Pow(x,-2)", f.OriginalFunction, "Failed with negativ power");
+
+			function = "2^-(x+3)";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("Math.Pow(2,-(x+3))", f.OriginalFunction, "Failed with 2^-(x+3)");
+
+			function = "-(x+2)^3";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("Math.Pow(-(x+2),3)", f.OriginalFunction, "Failed with -(x+2)^3");
 
 			// With Brackets
-			function = "2*x^(2*9)";
+			function = "x^(2*9)";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("2*Math.Pow(x,(2*9))", f.OriginalFunction, "Failed with brackets in power");
+			Assert.AreEqual("Math.Pow(x,(2*9))", f.OriginalFunction, "Failed with brackets in power");
 
 			// Operations on left side
 			function = "(x+3)^2";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Pow(x+3,2)", f.OriginalFunction, "Failed with brackets on left side");
+			Assert.AreEqual("Math.Pow((x+3),2)", f.OriginalFunction, "Failed with brackets on left side");
 
 			// with y
 			function = "x^y";
 			f = _parser.ParseFunction(function);
 
 			Assert.AreEqual("Math.Pow(x,y)", f.OriginalFunction, "Failed with y");
+
+			function = "(x+y)^2";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("Math.Pow((x+y),2)", f.OriginalFunction, "Failed with (x+y)^2");
+
+			function = "2^(x+y)";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("Math.Pow(2,(x+y))", f.OriginalFunction, "Failed with 2^(x+y)");
 		}
 
 		[TestMethod]
