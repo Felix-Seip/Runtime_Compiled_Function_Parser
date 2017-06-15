@@ -94,6 +94,33 @@ namespace RuntimeParserTest
 			f = _parser.ParseFunction(function);
 
 			Assert.AreEqual("Math.Pow(2,(x+y))", f.OriginalFunction, "Failed with 2^(x+y)");
+
+			// with pow
+			function = "pow(2,3)";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("Math.Pow(2,3)", f.OriginalFunction, "Failed with pow(2,3)");
+
+			function = "pow(2,x)";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("Math.Pow(2,x)", f.OriginalFunction, "Failed with pow(2,x)");
+
+			function = "pow(x,2)";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("Math.Pow(x,2)", f.OriginalFunction, "Failed with pow(x,2)");
+
+			function = "pow(x,y)";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("Math.Pow(x,y)", f.OriginalFunction, "Failed with pow(x,y)");
+
+			function = "pow((x+3),2)";
+			f = _parser.ParseFunction(function);
+
+			Assert.AreEqual("Math.Pow((x+3),2)", f.OriginalFunction, "Failed with pow((x+3),2)");
+
 		}
 
 		[TestMethod]
