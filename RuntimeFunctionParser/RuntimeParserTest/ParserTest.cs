@@ -25,7 +25,7 @@ namespace RuntimeParserTest
 			function = "3 * 2+  4";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("3*2+4", f.OriginalFunction, "Spaces were not trimmed");
+			Assert.AreEqual("3*2+4", f.ParsedFunction, "Spaces were not trimmed");
 		}
 
 		[TestMethod]
@@ -38,89 +38,62 @@ namespace RuntimeParserTest
 			function = "3^2";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Pow(3,2)", f.OriginalFunction, "Failed with positiv power");
+			Assert.AreEqual("Math.Pow(3,2)", f.ParsedFunction, "Failed with positiv power");
 
 			// Positiv 
 			function = "x^2";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Pow(x,2)", f.OriginalFunction, "Failed with positiv power");
+			Assert.AreEqual("Math.Pow(x,2)", f.ParsedFunction, "Failed with positiv power");
 
 			// Negativ
 			function = "-2^3";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Pow(-2,3)", f.OriginalFunction, "Failed with -2^3");
+			Assert.AreEqual("Math.Pow(-2,3)", f.ParsedFunction, "Failed with -2^3");
 
 			function = "x^-2";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Pow(x,-2)", f.OriginalFunction, "Failed with negativ power");
+			Assert.AreEqual("Math.Pow(x,-2)", f.ParsedFunction, "Failed with negativ power");
 
 			function = "2^-(x+3)";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Pow(2,-(x+3))", f.OriginalFunction, "Failed with 2^-(x+3)");
+			Assert.AreEqual("Math.Pow(2,-(x+3))", f.ParsedFunction, "Failed with 2^-(x+3)");
 
 			function = "-(x+2)^3";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Pow(-(x+2),3)", f.OriginalFunction, "Failed with -(x+2)^3");
+			Assert.AreEqual("Math.Pow(-(x+2),3)", f.ParsedFunction, "Failed with -(x+2)^3");
 
 			// With Brackets
 			function = "x^(2*9)";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Pow(x,(2*9))", f.OriginalFunction, "Failed with brackets in power");
+			Assert.AreEqual("Math.Pow(x,(2*9))", f.ParsedFunction, "Failed with brackets in power");
 
 			// Operations on left side
 			function = "(x+3)^2";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Pow((x+3),2)", f.OriginalFunction, "Failed with brackets on left side");
+			Assert.AreEqual("Math.Pow((x+3),2)", f.ParsedFunction, "Failed with brackets on left side");
 
 			// with y
 			function = "x^y";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Pow(x,y)", f.OriginalFunction, "Failed with y");
+			Assert.AreEqual("Math.Pow(x,y)", f.ParsedFunction, "Failed with y");
 
 			function = "(x+y)^2";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Pow((x+y),2)", f.OriginalFunction, "Failed with (x+y)^2");
+			Assert.AreEqual("Math.Pow((x+y),2)", f.ParsedFunction, "Failed with (x+y)^2");
 
 			function = "2^(x+y)";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Pow(2,(x+y))", f.OriginalFunction, "Failed with 2^(x+y)");
-
-			// with pow
-			function = "pow(2,3)";
-			f = _parser.ParseFunction(function);
-
-			Assert.AreEqual("Math.Pow(2,3)", f.OriginalFunction, "Failed with pow(2,3)");
-
-			function = "pow(2,x)";
-			f = _parser.ParseFunction(function);
-
-			Assert.AreEqual("Math.Pow(2,x)", f.OriginalFunction, "Failed with pow(2,x)");
-
-			function = "pow(x,2)";
-			f = _parser.ParseFunction(function);
-
-			Assert.AreEqual("Math.Pow(x,2)", f.OriginalFunction, "Failed with pow(x,2)");
-
-			function = "pow(x,y)";
-			f = _parser.ParseFunction(function);
-
-			Assert.AreEqual("Math.Pow(x,y)", f.OriginalFunction, "Failed with pow(x,y)");
-
-			function = "pow((x+3),2)";
-			f = _parser.ParseFunction(function);
-
-			Assert.AreEqual("Math.Pow((x+3),2)", f.OriginalFunction, "Failed with pow((x+3),2)");
-
+			Assert.AreEqual("Math.Pow(2,(x+y))", f.ParsedFunction, "Failed with 2^(x+y)");
 		}
 
 		[TestMethod]
@@ -133,25 +106,25 @@ namespace RuntimeParserTest
 			function = "sqrt(x)";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Sqrt(x)", f.OriginalFunction, "Failed in Sunshine case");
+			Assert.AreEqual("Math.Sqrt(x)", f.ParsedFunction, "Failed in Sunshine case");
 
 			// with operants
 			function = "sqrt(x / 3)";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Sqrt(x/3)", f.OriginalFunction, "Failed with operants");
+			Assert.AreEqual("Math.Sqrt(x/3)", f.ParsedFunction, "Failed with operants");
 
 			// with brackets
 			function = "sqrt( (2+3)*x)";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Sqrt((2+3)*x)", f.OriginalFunction, "Failed with brackets");
+			Assert.AreEqual("Math.Sqrt((2+3)*x)", f.ParsedFunction, "Failed with brackets");
 
 			// with y
 			function = "sqrt( x * y)";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Sqrt(x*y)", f.OriginalFunction, "Failed with y");
+			Assert.AreEqual("Math.Sqrt(x*y)", f.ParsedFunction, "Failed with y");
 		}
 
 		[TestMethod]
@@ -164,31 +137,31 @@ namespace RuntimeParserTest
 			function = "2*pi+3";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("2*Math.PI+3", f.OriginalFunction, "Error with lower case pi");
+			Assert.AreEqual("2*Math.PI+3", f.ParsedFunction, "Error with lower case pi");
 
 			// upper case Pi
 			function = "2*PI+3";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("2*Math.PI+3", f.OriginalFunction, "Error with upper case PI");
+			Assert.AreEqual("2*Math.PI+3", f.ParsedFunction, "Error with upper case PI");
 
 			// lower case i
 			function = "2*Pi+3";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("2*Math.PI+3", f.OriginalFunction, "Error with the spelling Pi");
+			Assert.AreEqual("2*Math.PI+3", f.ParsedFunction, "Error with the spelling Pi");
 
 			// lower case e
 			function = "2*e+3";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("2*Math.E+3", f.OriginalFunction, "Error with lower case e");
+			Assert.AreEqual("2*Math.E+3", f.ParsedFunction, "Error with lower case e");
 
 			// upper case E
 			function = "2*E+3";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("2*Math.E+3", f.OriginalFunction, "Error with upper case E");
+			Assert.AreEqual("2*Math.E+3", f.ParsedFunction, "Error with upper case E");
 		}
 
 		[TestMethod]
@@ -228,13 +201,13 @@ namespace RuntimeParserTest
 			function = "sqrt(x^2)";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Sqrt(Math.Pow(x,2))", f.OriginalFunction, " Failed with pow inside a sqrt argument");
+			Assert.AreEqual("Math.Sqrt(Math.Pow(x,2))", f.ParsedFunction, " Failed with pow inside a sqrt argument");
 
 			// sin with power
 			function = "sin(1/x^2)";
 			f = _parser.ParseFunction(function);
 
-			Assert.AreEqual("Math.Sin(1/Math.Pow(x,2))", f.OriginalFunction, "sin(1/x^2) failed");
+			Assert.AreEqual("Math.Sin(1/Math.Pow(x,2))", f.ParsedFunction, "sin(1/x^2) failed");
 		}
 
 		[TestMethod]
@@ -244,7 +217,7 @@ namespace RuntimeParserTest
 			string function = "2*x^3+3*x^2+x+6";
 
 			Function f = _parser.ParseFunction(function);
-			Assert.AreEqual("2*Math.Pow(x,3)+3*Math.Pow(x,2)+x+6", f.OriginalFunction);
+			Assert.AreEqual("2*Math.Pow(x,3)+3*Math.Pow(x,2)+x+6", f.ParsedFunction);
 		}
 	}
 }

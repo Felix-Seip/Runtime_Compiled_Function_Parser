@@ -14,6 +14,7 @@ namespace RuntimeFunctionParser
 	{
 		public Function ParseFunction(string function)
 		{
+            string originalFunction = function;
 			try
 			{
 				function = ReplaceUnknowns(function);
@@ -36,7 +37,7 @@ namespace RuntimeFunctionParser
 				CompilerResults results = provider.CompileAssemblyFromSource(new CompilerParameters(), finalCode);
 
 				Type binaryFunction = results.CompiledAssembly.GetType("RuntimeFunctionParser.MathFunctions");
-				return new Function(binaryFunction.GetMethod("UserFunction"), function);
+				return new Function(binaryFunction.GetMethod("UserFunction"), originalFunction, function);
 			}
 			catch (Exception ex)
 			{
