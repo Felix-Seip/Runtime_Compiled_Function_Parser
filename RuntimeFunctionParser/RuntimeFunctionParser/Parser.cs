@@ -1,39 +1,41 @@
 ﻿using Microsoft.CSharp;
 using System;
 using System.CodeDom.Compiler;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace RuntimeFunctionParser
 {
 	public class Parser
 	{
-		public Function ParseFunction(string function)
+        private string regex = "\"[a - zA - Z]\"";
+
+        public Function ParseFunction(string function)
 		{
             string originalFunction = function;
-			try
+
+            try
 			{
 				function = ReplaceUnknowns(function);
 
 				string code = @"using System;            
-                            namespace RuntimeFunctionParser
-                            {                
-                                public class MathFunctions
+                                namespace RuntimeFunctionParser
                                 {                
-                                    public static double UserFunction(double x, double y)
-                                    {
-                                        return math_func;
+                                    public class MathFunctions
+                                    {                
+                                        public static double UserFunction(double x, double y)
+                                        {
+                                            return math_func;
+                                        }
                                     }
-                                }
-                            }";
+                                }";
 
-				string finalCode = code.Replace("math_func", function);
+                //function = "\"" + function + "\"";
 
-				CSharpCodeProvider provider = new CSharpCodeProvider();
+                string finalCode = code.Replace("math_func", function);
+                //finalCode = finalCode.Replace("regex", regex);
+
+                CSharpCodeProvider provider = new CSharpCodeProvider();
 				CompilerResults results = provider.CompileAssemblyFromSource(new CompilerParameters(), finalCode);
 
 				Type binaryFunction = results.CompiledAssembly.GetType("RuntimeFunctionParser.MathFunctions");

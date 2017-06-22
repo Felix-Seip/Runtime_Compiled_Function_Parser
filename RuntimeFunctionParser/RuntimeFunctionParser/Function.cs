@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace RuntimeFunctionParser
 {
@@ -7,11 +8,11 @@ namespace RuntimeFunctionParser
         private MethodInfo _mathFunction;
 
         private string _originalFunction;
-		public string OriginalFunction
-		{
-			private set { _originalFunction = value; }
-			get { return _originalFunction; }
-		}
+        public string OriginalFunction
+        {
+            private set { _originalFunction = value; }
+            get { return _originalFunction; }
+        }
 
         private string _parsedFunction;
         public string ParsedFunction
@@ -23,15 +24,18 @@ namespace RuntimeFunctionParser
         public Function(MethodInfo mathFunction, string originalFunction, string parsedFunction)
         {
             _mathFunction = mathFunction;
-			OriginalFunction = originalFunction;
+            OriginalFunction = originalFunction;
             ParsedFunction = parsedFunction;
         }
 
-		public Function(string originalFunction)
-		{
-			Parser p = new Parser();
-			p.ParseFunction(originalFunction);
-		}
+		public Function(string originalFunction, bool parse)
+        {
+            if(parse)
+            {
+                Parser p = new Parser();
+                p.ParseFunction(originalFunction);
+            }
+        }
 
         public double Solve(double x, double y)
         {
