@@ -5,7 +5,7 @@ namespace RuntimeFunctionParser
 {
     public class Function
     {
-        private MethodInfo _mathFunction;
+        public MethodInfo _mathFunction { set; get; }
 
         private string _originalFunction;
         public string OriginalFunction
@@ -33,13 +33,18 @@ namespace RuntimeFunctionParser
             if(parse)
             {
                 Parser p = new Parser();
-                p.ParseFunction(originalFunction);
+                _mathFunction = p.ParseFunction(originalFunction)._mathFunction;
             }
         }
 
         public double Solve(double x, double y)
         {
-            return (double)_mathFunction.Invoke(null, new object[] { x, y });
+            return (double)_mathFunction.Invoke(null, new object[] { x, y, 0 });
+        }
+
+        public double Solve(double x, double y, double z)
+        {
+            return (double)_mathFunction.Invoke(null, new object[] { x, y, z});
         }
 
         public Function UpdateFunction(string updatedFunction)

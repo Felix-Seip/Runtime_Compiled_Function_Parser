@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Derivative.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="ParserException.cs" />

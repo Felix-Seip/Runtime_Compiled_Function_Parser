@@ -7,61 +7,105 @@ namespace RuntimeFunctionParser
         private double hValue;
         private Function baseFunction;
 
-        public Derivative(Function baseFunc, double h) : base("", false)
+        private const string nonPartialFirstDerivativeHMethod = "((x - y) / 0.00001)";
+        private const string partialFirstDerivativeHMethod = "((x - y) / (2 * 0.00001))";
+        private const string secondDerivativeHMethod = "(y - (2 * x) + z) / (0.00001^2)";
+
+        private Enums.eDerivativePower eDerivativePower;
+        private Enums.eDerivativeType eDerivativeType;
+
+        public Derivative(Function baseFunc, double h, Enums.eDerivativePower derivativePower, Enums.eDerivativeType derivativeType)
+            : base(DetermineDerivationHMethod(derivativePower, derivativeType), true)
         {
             hValue = h;
             baseFunction = baseFunc;
+            eDerivativePower = derivativePower;
+            eDerivativeType = derivativeType;
         }
 
-        public double Solve(double x, double y, bool partialDerivative, bool xValue)
+        private static string DetermineDerivationHMethod(Enums.eDerivativePower derivativePower, Enums.eDerivativeType derivativeType)
         {
-            if (partialDerivative)
+            switch (derivativeType)
+            {
+                case Enums.eDerivativeType.eNormal:
+                    switch (derivativePower)
+                    {
+                        case Enums.eDerivativePower.eFirstDerivative:
+                            return nonPartialFirstDerivativeHMethod;
+                        case Enums.eDerivativePower.eSecondDerivative:
+                            return secondDerivativeHMethod;
+                    }
+                    break;
+                case Enums.eDerivativeType.ePartial:
+                    switch(derivativePower)
+                    {
+                        case Enums.eDerivativePower.eFirstDerivative:
+                            return partialFirstDerivativeHMethod;
+                    }
+                    break;
+            }
+
+            return "";
+        }
+
+        public double Solve(double x, double y, bool xValue)
+        {
+            if (eDerivativeType == Enums.eDerivativeType.ePartial)
             {
                 if (xValue)
                 {
-                    return PartialDerivative(x, y, true);
+                    return FirstPartialDerivative(x, y, true);
                 }
                 else
                 {
-                    return PartialDerivative(x, y, false);
+                    return FirstPartialDerivative(x, y, false);
                 }
             }
             else
             {
-                return Derivation_Approximation(x, false);
+                if (eDerivativePower == Enums.eDerivativePower.eFirstDerivative)
+                {
+                    return FirstDerivativeFunction(x, false);
+                }
+                else
+                {
+                    return SecondDerivativeFunction(x, false);
+                }
             }
         }
 
-    private double Derivation_Approximation(double x, bool arithmeticMiddle = false)
-    {
-        double fFromXPlusH = baseFunction.Solve(x + hValue, 0);
-        double fFromX = baseFunction.Solve(x, 0);
-        if (arithmeticMiddle)
+        private double FirstDerivativeFunction(double x, bool arithmeticMiddle = false)
         {
-            return Math.Round((fFromXPlusH - fFromX) / (2 * hValue), 4);
+            double fFromXPlusH = baseFunction.Solve(x + hValue, 0);
+            double fFromX = baseFunction.Solve(x, 0);
+
+            return Math.Round(Solve(fFromXPlusH, fFromX), 4);
         }
-        else
+
+        private double SecondDerivativeFunction(double x, bool arithmeticMiddle = false)
         {
-            return Math.Round(((fFromXPlusH - fFromX) / hValue), 4);
+            double fFromXPlusH = baseFunction.Solve(x + hValue, 0);
+            double fFromX = baseFunction.Solve(x - hValue, 0);
+
+            return Math.Round(Solve(baseFunction.Solve(x, 0), fFromXPlusH, fFromX), 4);
+        }
+
+        private double FirstPartialDerivative(double x, double y, bool xValue)
+        {
+            double fFromXPlusH = baseFunction.Solve(x + hValue, y);
+            double fFromX = baseFunction.Solve(x - hValue, y);
+
+            double fFromYPlusH = baseFunction.Solve(x, y + hValue);
+            double fFromY = baseFunction.Solve(x, y - hValue);
+
+            if (xValue)
+            {
+                return Math.Round(Solve(fFromXPlusH, fFromX), 4);
+            }
+            else
+            {
+                return Math.Round(Solve(fFromYPlusH, fFromY), 4);
+            }
         }
     }
-
-    private double PartialDerivative(double x, double y, bool xValue)
-    {
-        double fFromXPlusH = baseFunction.Solve(x + hValue, y);
-        double fFromX = baseFunction.Solve(x - hValue, y);
-
-        double fFromYPlusH = baseFunction.Solve(x, y + hValue);
-        double fFromY = baseFunction.Solve(x, y - hValue);
-
-        if (xValue)
-        {
-            return Math.Round((fFromXPlusH - fFromX) / (2 * hValue), 4);
-        }
-        else
-        {
-            return Math.Round((fFromYPlusH - fFromY) / (2 * hValue), 4);
-        }
-    }
-}
 }

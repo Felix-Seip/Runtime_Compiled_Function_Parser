@@ -8,8 +8,6 @@ namespace RuntimeFunctionParser
 {
 	public class Parser
 	{
-        private string regex = "\"[a - zA - Z]\"";
-
         public Function ParseFunction(string function)
 		{
             string originalFunction = function;
@@ -23,7 +21,7 @@ namespace RuntimeFunctionParser
                                 {                
                                     public class MathFunctions
                                     {                
-                                        public static double UserFunction(double x, double y)
+                                        public static double UserFunction(double x, double y, double z)
                                         {
                                             return math_func;
                                         }
