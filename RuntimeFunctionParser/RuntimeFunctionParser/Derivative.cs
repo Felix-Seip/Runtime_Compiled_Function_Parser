@@ -4,7 +4,7 @@ namespace RuntimeFunctionParser
 {
     public class Derivative : Function
     {
-        private double hValue;
+        private const double hValue = 0.00001;
         private Function baseFunction;
 
         private const string nonPartialFirstDerivativeHMethod = "((x - y) / 0.00001)";
@@ -14,10 +14,9 @@ namespace RuntimeFunctionParser
         private Enums.eDerivativePower eDerivativePower;
         private Enums.eDerivativeType eDerivativeType;
 
-        public Derivative(Function baseFunc, double h, Enums.eDerivativePower derivativePower, Enums.eDerivativeType derivativeType)
+        public Derivative(Function baseFunc, Enums.eDerivativePower derivativePower, Enums.eDerivativeType derivativeType)
             : base(DetermineDerivationHMethod(derivativePower, derivativeType), true)
         {
-            hValue = h;
             baseFunction = baseFunc;
             eDerivativePower = derivativePower;
             eDerivativeType = derivativeType;

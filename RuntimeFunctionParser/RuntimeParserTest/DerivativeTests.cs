@@ -12,7 +12,7 @@ namespace RuntimeParserTest
         {
             string function = "x^2";
             Function func = new Parser().ParseFunction(function);
-            Derivative derivative = new Derivative(func, 0.00001, Enums.eDerivativePower.eFirstDerivative, Enums.eDerivativeType.eNormal);
+            Derivative derivative = new Derivative(func, Enums.eDerivativePower.eFirstDerivative, Enums.eDerivativeType.eNormal);
             double actual = derivative.Solve(2, 0, true);
             double expected = 4;
 
@@ -24,7 +24,7 @@ namespace RuntimeParserTest
         {
             string function = "x^2+x*y^2"; //Derivative is 2x + y^2
             Function func = new Parser().ParseFunction(function);
-            Derivative derivative = new Derivative(func, 0.00001, Enums.eDerivativePower.eFirstDerivative, Enums.eDerivativeType.ePartial);
+            Derivative derivative = new Derivative(func, Enums.eDerivativePower.eFirstDerivative, Enums.eDerivativeType.ePartial);
 
             double x = 2;
             double y = 5;
@@ -42,7 +42,7 @@ namespace RuntimeParserTest
         {
             string function = "x^2";
             Function func = new Parser().ParseFunction(function);
-            Derivative secondDerivative = new Derivative(func, 0.00001, Enums.eDerivativePower.eSecondDerivative, Enums.eDerivativeType.eNormal);
+            Derivative secondDerivative = new Derivative(func, Enums.eDerivativePower.eSecondDerivative, Enums.eDerivativeType.eNormal);
 
             double actual = secondDerivative.Solve(2, 0, true);
             double expected = 2;
