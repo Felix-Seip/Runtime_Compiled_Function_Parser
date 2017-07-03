@@ -22,12 +22,12 @@ namespace RuntimeParserTest
         [TestMethod]
         public void PartialDerivative_Test()
         {
-            string function = "x^2+x*y^2"; //Derivative is 2x + y^2
+            string function = "x^3+y^3"; //Derivative is 2x + y^2
             Function func = new Parser().ParseFunction(function);
-            Derivative derivative = new Derivative(func, Enums.eDerivativePower.eFirstDerivative, Enums.eDerivativeType.ePartial);
+            Derivative derivative = new Derivative(func, Enums.eDerivativePower.eSecondDerivative, Enums.eDerivativeType.ePartial);
 
             double x = 2;
-            double y = 5;
+            double y = 2;
 
             bool partialX = true;
             double result = derivative.Solve(x, y, partialX);

@@ -11,6 +11,8 @@ namespace RuntimeFunctionParser
         private const string partialFirstDerivativeHMethod = "((x - y) / (2 * 0.00001))";
         private const string secondDerivativeHMethod = "(y - (2 * x) + z) / (0.00001^2)";
 
+        private const string partialSecondDerivativeXXHMethod = "(y^2 - (2 * ((4 * x) * y)) - (2 * ((4 * x) * z)) + (2 * (z * y)) + (4 * x^2) + (4 * z^2)) / 0.00001^4";
+
         private Enums.eDerivativePower eDerivativePower;
         private Enums.eDerivativeType eDerivativeType;
 
@@ -40,6 +42,8 @@ namespace RuntimeFunctionParser
                     {
                         case Enums.eDerivativePower.eFirstDerivative:
                             return partialFirstDerivativeHMethod;
+                        case Enums.eDerivativePower.eSecondDerivative:
+                            return partialSecondDerivativeXXHMethod;
                     }
                     break;
             }
@@ -96,6 +100,9 @@ namespace RuntimeFunctionParser
 
             double fFromYPlusH = baseFunction.Solve(x, y + hValue);
             double fFromY = baseFunction.Solve(x, y - hValue);
+
+            double res = Solve(fFromXPlusH, fFromX);
+
 
             if (xValue)
             {
